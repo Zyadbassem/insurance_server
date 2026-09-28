@@ -1,10 +1,26 @@
 from typing import Literal
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 import pandas as pd
 import joblib
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",      # Common React/Next.js local development port
+    "http://127.0.0.1:5173",     # Common Vite/Vue local development port
+    "https://insurance-frontend-opal-one.vercel.app/",  # Your production domain
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,           # Allows specific origins
+    allow_credentials=True,          # Allows cookies and authentication headers
+    allow_methods=["*"],             # Allows all standard HTTP verbs (GET, POST, etc.)
+    allow_headers=["*"],             # Allows all headers
+)
+
 
 pipeline = joblib.load('model.joblib')
 
