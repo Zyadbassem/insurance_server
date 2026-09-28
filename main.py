@@ -10,7 +10,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",      # Common React/Next.js local development port
     "http://127.0.0.1:5173",     # Common Vite/Vue local development port
-    "https://insurance-frontend-opal-one.vercel.app/",  # Your production domain
+    "https://insurance-frontend-opal-one.vercel.app",  # Your production domain
 ]
 
 app.add_middleware(
