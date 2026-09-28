@@ -2,7 +2,6 @@ from typing import Literal
 from fastapi import FastAPI
 from pydantic import BaseModel, Field, field_validator
 import pandas as pd
-import pickle
 import joblib
 
 app = FastAPI()
@@ -24,10 +23,15 @@ class Features(BaseModel):
             raise ValueError('BMI must be a realistic value between 10 and 70')
         return value
 
+
+@app.get('/')
+async def root():
+    return {"message": "Insurance API is running. Navigate to /docs to test it."}
+
 @app.post('/charge')
-async def gat_charge(f: Features):
+async def get_charge(f: Features):
     input_df = pd.DataFrame([f.model_dump()])
     prediction = pipeline.predict(input_df)
 
-    return {'Prediction': prediction[0]}
+    return {'Prediction': float(prediction[0])}
    
